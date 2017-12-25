@@ -82,6 +82,9 @@ function WhereIsObject:generate_story(world, knowledge, story)
                         knowledge:current()[entity.is_in]:get_value('is_in')
                 end
             )
+            if #known_objects < 1 then
+                return nil
+            end
             local random_object =
                     known_objects[math.random(#known_objects)]
             local value, support =
