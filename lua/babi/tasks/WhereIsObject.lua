@@ -23,29 +23,58 @@ function WhereIsObject:generate_story(world, knowledge, story)
     local story_length = 0
 
     local allowed_actions = {actions.get, actions.drop, actions.teleport}
-    while num_questions < 5 do
-        local clause
-        while not clause do
-            local random_action =
-                allowed_actions[math.random(#allowed_actions)]
-            if torch.isTypeOf(random_action, 'babi.Teleport') then
-                clause = babi.Clause.sample_valid(
-                    world, {true}, world:get_actors(),
+    
+    --state all actors at initial stage
+    local actors = world:get_actors_mod()
+    local subactors = {actors[1], actors[2], actors[3]}
+    --[[ initialize with 4 contexts
+    for i = 1,4 do
+        local init_clause
+        while not init_clause do
+            if i==4 then -- teleport
+                init_clause = babi.Clause.sample_valid(
+                    world, {true}, subactors,
                     {actions.teleport}, world:get_locations()
                 )
             else
-                clause = babi.Clause.sample_valid(
-                    world, {true}, world:get_actors(),
-                    {actions.get, actions.drop}, world:get_objects()
+                init_clause = babi.Clause.sample_valid_mod(
+                    world, {true}, actors, i, 
+                    {actions.get}, world:get_objects()
                 )
             end
         end
-        clause:perform()
-        story:append(clause)
-        knowledge:update(clause)
+        init_clause:perform()
+        story:append(init_clause)
+        knowledge:update(init_clause)
         story_length = story_length + 1
+    end
+    ]]
+    -- initialize all 4 actors
+    for i = 1,8 do
+        local init_clause
+        while not init_clause do
+            if i%2==0 then -- teleport
+                init_clause = babi.Clause.sample_valid_mod(
+                    world, {true}, actors, math.floor(i/2 + 0.5),
+                    {actions.teleport}, world:get_locations()
+                )
+            else
+                init_clause = babi.Clause.sample_valid_mod(
+                    world, {true}, actors, math.floor(i/2 + 0.5), 
+                    {actions.get}, world:get_objects()
+                )
+            end
+        end
+        init_clause:perform()
+        story:append(init_clause)
+        knowledge:update(init_clause)
+        story_length = story_length + 1
+    end
 
-        if story_length > 2 and math.random(2) < 2 then
+    local isTeleport = 0 --flag that determines whether teleport occured
+    for i = 1, 37 do
+        if (i-1)%9 == 0 then 
+            -- question
             local known_objects = tablex.filter(
                 knowledge:current():find('is_in'),
                 function(entity)
@@ -53,28 +82,50 @@ function WhereIsObject:generate_story(world, knowledge, story)
                         knowledge:current()[entity.is_in]:get_value('is_in')
                 end
             )
-
-            -- If there are any objects we know the location of, ask question
-            if #known_objects > 0 then
-                local random_object =
+            local random_object =
                     known_objects[math.random(#known_objects)]
-                local value, support =
+            local value, support =
                     knowledge:current()[random_object]:get_value('is_in', true)
-                local _, holder_support =
+            local _, holder_support =
                     knowledge:current()[random_object.is_in]:get_value('is_in',
                                                                        true)
-                story:append(babi.Question(
+            story:append(babi.Question(
                     'eval',
                     babi.Clause(world, true, world:god(), actions.set,
                         random_object, 'is_in', value.is_in),
                     support + holder_support
                 ))
 
-                story_length = 0
-                num_questions = num_questions + 1
+            story_length = 0
+            num_questions = num_questions + 1
+            isTeleport = 0
+        else 
+            -- create clause
+            local clause
+            local rv = math.random(3) -- 1,2: get/drop, 3: teleport
+            while not clause do
+                if (rv == 3) or (i%5==0 and isTeleport==0) then
+                    clause = babi.Clause.sample_valid(
+                        world, {true}, world:get_actors(),
+                        {actions.teleport}, world:get_locations()
+                    )
+                else
+                    clause = babi.Clause.sample_valid(
+                        world, {true}, world:get_actors(),
+                        {actions.get, actions.drop}, world:get_objects()
+                    )
+                end
             end
+            if rv ==3 then 
+                isTeleport = 1
+            end
+            clause:perform()
+            story:append(clause)
+            knowledge:update(clause)
+            story_length = story_length + 1
         end
     end
+    print('story generation ended')
     return story, knowledge
 end
 

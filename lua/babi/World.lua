@@ -82,6 +82,15 @@ function World:get_actors()
     ))
 end
 
+function World:get_actors_mod()
+    local actors = List(tablex.filter(
+        tablex.values(self.entities),
+        function(entity) return entity.is_actor and entity.is_god end
+    ))
+    table.sort(actors, function(a, b) return a.name < b.name end)
+    return actors
+end
+
 function World:get_locations()
     return List(tablex.filter(
         tablex.values(self.entities),

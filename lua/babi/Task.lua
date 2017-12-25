@@ -14,10 +14,21 @@ local Task = torch.class('babi.Task', babi)
 
 --- Generate a story and questions, and print to screen.
 function Task:generate(config)
-    local world = self:new_world(config)
-    local story, knowledge = self:generate_story(world, babi.Knowledge(world),
-                                                 List(), config)
-    return stringify(story, knowledge, config)
+    for i = 1, 200 do
+        math.randomseed(i+os.time())
+        local world = self:new_world(config)
+        local story, knowledge = self:generate_story(world, babi.Knowledge(world),
+                                             List(), config)
+        str = stringify(story, knowledge, config)
+        -- write to file
+        if i % 100 == 0 then
+            print(i)
+        end
+        file = io.open("q1_valid.txt", "a")
+        file:write('\n')
+        file:write(str)
+    end
+    return str
 end
 
 return Task
