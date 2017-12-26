@@ -47,7 +47,7 @@ end
 -- Given options, sample a clause that is valid
 function Clause.sample_valid(world, truth_values, actors, actions, ...)
     local clause
-    for i = 1, 100 do
+    for _ = 1, 100 do
         local truth_value = truth_values[math.random(#truth_values)]
         local actor = actors[math.random(#actors)]
         local action = actions[math.random(#actions)]
@@ -63,7 +63,7 @@ function Clause.sample_valid(world, truth_values, actors, actions, ...)
 end
 
 -- Given options, sample a clause that is valid for specified actor
-function Clause.sample_valid_mod(world, truth_values, actors, actorIndex, actions, ...)
+function Clause.sample_valid_with_actor(world, truth_values, actors, actorIndex, actions, ...)
     local clause
     for _ = 1, 100 do
         local truth_value = truth_values[math.random(#truth_values)]

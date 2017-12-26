@@ -24,8 +24,8 @@ function WhereIsObject:generate_story(world, knowledge, story)
 
     local allowed_actions = {actions.get, actions.drop, actions.teleport}
     
-    --state all actors at initial stage
-    local actors = world:get_actors_mod()
+    --state actors at initial stage
+    local actors = world:get_actors(true, function(a, b) return a.name < b.name end)
     local subactors = {actors[1], actors[2], actors[3]}
     --[[ initialize with 4 contexts
     for i = 1,4 do
@@ -37,7 +37,7 @@ function WhereIsObject:generate_story(world, knowledge, story)
                     {actions.teleport}, world:get_locations()
                 )
             else
-                init_clause = babi.Clause.sample_valid_mod(
+                init_clause = babi.Clause.sample_valid_with_actor(
                     world, {true}, actors, i, 
                     {actions.get}, world:get_objects()
                 )
@@ -54,12 +54,12 @@ function WhereIsObject:generate_story(world, knowledge, story)
         local init_clause
         while not init_clause do
             if i%2==0 then -- teleport
-                init_clause = babi.Clause.sample_valid_mod(
+                init_clause = babi.Clause.sample_valid_with_actor(
                     world, {true}, actors, math.floor(i/2 + 0.5),
                     {actions.teleport}, world:get_locations()
                 )
             else
-                init_clause = babi.Clause.sample_valid_mod(
+                init_clause = babi.Clause.sample_valid_with_actor(
                     world, {true}, actors, math.floor(i/2 + 0.5), 
                     {actions.get}, world:get_objects()
                 )
@@ -73,16 +73,17 @@ function WhereIsObject:generate_story(world, knowledge, story)
 
     local isTeleport = 0 --flag that determines whether teleport occured
     for i = 1, 37 do
+        local known_objects = tablex.filter(
+            knowledge:current():find('is_in'),
+            function(entity)
+                return entity.is_gettable and
+                    knowledge:current()[entity.is_in]:get_value('is_in')
+            end
+        )
         if (i-1)%9 == 0 then 
             -- question
-            local known_objects = tablex.filter(
-                knowledge:current():find('is_in'),
-                function(entity)
-                    return entity.is_gettable and
-                        knowledge:current()[entity.is_in]:get_value('is_in')
-                end
-            )
             if #known_objects < 1 then
+                error('#known_objects < 1')
                 return nil
             end
             local random_object =
@@ -105,9 +106,17 @@ function WhereIsObject:generate_story(world, knowledge, story)
         else 
             -- create clause
             local clause
+            if (((i+1)%9==0)and(#known_objects<1)) then  --force to make known_object
+                while not clause do
+                    clause = babi.Clause.sample_valid(
+                        world, {true}, world:get_actors(),
+                        {actions.get}, world:get_objects()
+                    )
+                end
+            end
             local rv = math.random(3) -- 1,2: get/drop, 3: teleport
             while not clause do
-                if (rv == 3) or (i%5==0 and isTeleport==0) then
+                if (rv == 3) or (i%9==0 and isTeleport==0) then
                     clause = babi.Clause.sample_valid(
                         world, {true}, world:get_actors(),
                         {actions.teleport}, world:get_locations()

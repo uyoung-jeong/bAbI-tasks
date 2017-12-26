@@ -47,7 +47,7 @@ end
 
 function WhereIsActor:generate_story(world, knowledge, story)
     -- Find the actors and the locations in the world
-    local actors = world:get_actors_mod()
+    local actors = world:get_actors(true, function(a, b) return a.name < b.name end)
     local locations = world:get_locations()
 
     -- shuffle to show in random order in 1-4
@@ -62,7 +62,7 @@ function WhereIsActor:generate_story(world, knowledge, story)
     for i = 1, 25 do
         if i <=4 then
             -- State all actors
-            local clause = babi.Clause.sample_valid_mod(world, {true}, actors, numbers[i],
+            local clause = babi.Clause.sample_valid_with_actor(world, {true}, actors, numbers[i],
                 {actions.teleport}, locations)
             clause:perform()
             story[i] = clause
