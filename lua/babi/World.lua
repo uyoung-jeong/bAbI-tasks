@@ -75,11 +75,17 @@ function World:get(predicate)
     ))
 end
 
-function World:get_actors()
-    return List(tablex.filter(
+function World:get_actors(isSort, func)
+    isSort = isSort or false
+    func = func or nil
+    actors = List(tablex.filter(
         tablex.values(self.entities),
         function(entity) return entity.is_actor and entity.is_god end
     ))
+    if isSort then
+        table.sort(actors, func)
+    end
+    return actors
 end
 
 function World:get_locations()

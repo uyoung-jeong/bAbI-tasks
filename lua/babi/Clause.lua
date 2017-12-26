@@ -62,4 +62,22 @@ function Clause.sample_valid(world, truth_values, actors, actions, ...)
     end
 end
 
+-- Given options, sample a clause that is valid for specified actor
+function Clause.sample_valid_with_actor(world, truth_values, actors, actorIndex, actions, ...)
+    local clause
+    for _ = 1, 100 do
+        local truth_value = truth_values[math.random(#truth_values)]
+        local actor = actors[actorIndex]
+        local action = actions[math.random(#actions)]
+        local args = {}
+        for i, arg in ipairs{...} do
+            args[i] = arg[math.random(#arg)]
+        end
+        clause = Clause.new(world, truth_value, actor, action, unpack(args))
+        if clause:is_valid() then
+            return clause
+        end
+    end
+end
+
 return Clause

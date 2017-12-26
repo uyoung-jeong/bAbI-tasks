@@ -1,0 +1,114 @@
+# locations
+
+create bedroom
+set bedroom is_thing
+set bedroom is_location
+
+create kitchen
+set kitchen is_thing
+set kitchen is_location
+
+create garden
+set garden is_thing
+set garden is_location
+
+create hallway
+set hallway is_thing
+set hallway is_location
+
+create bathroom
+set bathroom is_thing
+set bathroom is_location
+
+create office
+set office is_thing
+set office is_location
+
+create park
+set park is_thing
+set park is_location
+
+create livingroom
+set livingroom is_thing
+set livingroom is_location
+
+create frontyard
+set frontyard is_thing
+set frontyard is_location
+
+create backyard
+set backyard is_thing
+set backyard is_location
+
+create patio
+set patio is_thing
+set patio is_location
+
+create garage
+set garage is_thing
+set garage is_location
+
+create rooftop
+set rooftop is_thing
+set rooftop is_location
+
+create basement
+set basement is_thing
+set basement is_location
+
+create terrace
+set terrace is_thing
+set terrace is_location
+
+# small (moveable) objects
+
+create apple
+set apple is_thing
+set apple is_gettable
+set apple is_in kitchen
+
+create bat
+set bat is_thing
+set bat is_gettable
+set bat is_in bedroom
+
+create football
+set football is_thing
+set football is_gettable
+set football is_in garden
+
+create milk
+set milk is_thing
+set milk is_gettable
+set milk is_in hallway
+
+# objects
+
+create table
+set table is_thing
+set table is_in kitchen
+
+# actors
+create David
+set David is_actor
+set David is_in kitchen
+set David is_god
+set David is_male
+
+create Cathy
+set Cathy is_actor
+set Cathy is_in bedroom
+set Cathy is_god
+set Cathy is_female
+
+create Betty
+set Betty is_actor
+set Betty is_in garden
+set Betty is_god
+set Betty is_female
+
+create Adam
+set Adam is_actor
+set Adam is_in hallway
+set Adam is_god
+set Adam is_male
