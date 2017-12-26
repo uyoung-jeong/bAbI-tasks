@@ -41,7 +41,7 @@ local WhereIsActor = torch.class('babi.WhereIsActor', 'babi.Task', babi)
 
 function WhereIsActor:new_world()
     local world = babi.World()
-    world:load((BABI_HOME or '') .. 'tasks/worlds/world_basic.txt')
+    world:load((BABI_HOME or '') .. 'tasks/worlds/world_basic_mod.txt')
     return world
 end
 

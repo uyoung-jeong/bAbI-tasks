@@ -24,53 +24,12 @@ create office
 set office is_thing
 set office is_location
 
-create park
-set park is_thing
-set park is_location
-
-create livingroom
-set livingroom is_thing
-set livingroom is_location
-
-create frontyard
-set frontyard is_thing
-set frontyard is_location
-
-create backyard
-set backyard is_thing
-set backyard is_location
-
-create patio
-set patio is_thing
-set patio is_location
-
-create garage
-set garage is_thing
-set garage is_location
-
-create rooftop
-set rooftop is_thing
-set rooftop is_location
-
-create basement
-set basement is_thing
-set basement is_location
-
-create terrace
-set terrace is_thing
-set terrace is_location
-
 # small (moveable) objects
 
 create apple
 set apple is_thing
 set apple is_gettable
 set apple is_in kitchen
-
-create bat
-set bat is_thing
-set bat is_gettable
-set bat is_in bedroom
 
 create football
 set football is_thing
@@ -80,7 +39,7 @@ set football is_in garden
 create milk
 set milk is_thing
 set milk is_gettable
-set milk is_in hallway
+set milk is_in kitchen
 
 # objects
 

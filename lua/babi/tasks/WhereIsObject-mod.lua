@@ -14,7 +14,7 @@ local WhereIsObject = torch.class('babi.WhereIsObject', 'babi.Task', babi)
 
 function WhereIsObject:new_world()
     local world = babi.World()
-    world:load((BABI_HOME or '') .. 'tasks/worlds/world_basic.txt')
+    world:load((BABI_HOME or '') .. 'tasks/worlds/world_basic_mod.txt')
     return world
 end
 
@@ -78,7 +78,7 @@ function WhereIsObject:generate_story(world, knowledge, story)
             function(entity)
                 return entity.is_gettable and
                     knowledge:current()[entity.is_in]:get_value('is_in')
-            end
+        
         )
         if (i-1)%9 == 0 then 
             -- question
