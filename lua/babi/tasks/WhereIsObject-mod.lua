@@ -38,7 +38,7 @@ function WhereIsObject:generate_story(world, knowledge, story)
                 )
             else
                 init_clause = babi.Clause.sample_valid_with_actor(
-                    world, {true}, actors, i, 
+                        world, {true}, actors, i, 
                     {actions.get}, world:get_objects()
                 )
             end
@@ -78,7 +78,7 @@ function WhereIsObject:generate_story(world, knowledge, story)
             function(entity)
                 return entity.is_gettable and
                     knowledge:current()[entity.is_in]:get_value('is_in')
-        
+            end
         )
         if (i-1)%9 == 0 then 
             -- question
