@@ -1,4 +1,4 @@
-locations
+# locations
 
 create bedroom
 set bedroom is_thing
@@ -24,6 +24,42 @@ create office
 set office is_thing
 set office is_location
 
+create park
+set park is_thing
+set park is_location
+
+create livingroom
+set livingroom is_thing
+set livingroom is_location
+
+create frontyard
+set frontyard is_thing
+set frontyard is_location
+
+create backyard
+set backyard is_thing
+set backyard is_location
+
+create patio
+set patio is_thing
+set patio is_location
+
+create garage
+set garage is_thing
+set garage is_location
+
+create rooftop
+set rooftop is_thing
+set rooftop is_location
+
+create basement
+set basement is_thing
+set basement is_location
+
+create terrace
+set terrace is_thing
+set terrace is_location
+
 # small (moveable) objects
 
 create apple
@@ -32,9 +68,9 @@ set apple is_gettable
 set apple is_in kitchen
 
 create bat
-set apple is_thing
-set apple is_gettable
-set apple is_in bedroom
+set bat is_thing
+set bat is_gettable
+set bat is_in bedroom
 
 create football
 set football is_thing
@@ -53,27 +89,26 @@ set table is_thing
 set table is_in kitchen
 
 # actors
-
-create Austin
-set Austin is_actor
-set Austin is_in bedroom
-set Austin is_god
-set Austin is_male
-
-create Beth
-set Beth is_actor
-set Beth is_in kitchen
-set Beth is_god
-set Beth is_female
-
-create Chloe
-set Chloe is_actor
-set Chloe is_in garden
-set Chloe is_god
-set Chloe is_female
-
 create David
 set David is_actor
-set David is_in hallway
+set David is_in kitchen
 set David is_god
 set David is_male
+
+create Cathy
+set Cathy is_actor
+set Cathy is_in bedroom
+set Cathy is_god
+set Cathy is_female
+
+create Betty
+set Betty is_actor
+set Betty is_in garden
+set Betty is_god
+set Betty is_female
+
+create Adam
+set Adam is_actor
+set Adam is_in hallway
+set Adam is_god
+set Adam is_male
