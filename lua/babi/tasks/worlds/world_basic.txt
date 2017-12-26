@@ -48,26 +48,26 @@ set table is_thing
 set table is_in kitchen
 
 # actors
-create David
-set David is_actor
-set David is_in kitchen
-set David is_god
-set David is_male
+create John
+set John is_actor
+set John is_in kitchen
+set John is_god
+set John is_male
 
-create Cathy
-set Cathy is_actor
-set Cathy is_in bedroom
-set Cathy is_god
-set Cathy is_female
+create Mary
+set Mary is_actor
+set Mary is_in bedroom
+set Mary is_god
+set Mary is_female
 
-create Betty
-set Betty is_actor
-set Betty is_in garden
-set Betty is_god
-set Betty is_female
+create Sandra
+set Sandra is_actor
+set Sandra is_in garden
+set Sandra is_god
+set Sandra is_female
 
-create Adam
-set Adam is_actor
-set Adam is_in hallway
-set Adam is_god
-set Adam is_male
+create Daniel
+set Daniel is_actor
+set Daniel is_in hallway
+set Daniel is_god
+set Daniel is_male
